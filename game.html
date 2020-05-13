@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>贪吃蛇</title>
+		<style>
+			html,
+			body {
+				padding: 0;
+				margin: 0;
+				overflow: hidden;
+			}
+
+			.map {
+				background-color: #ccc;
+				position: relative;
+			}
+
+			span {
+				display: block;
+				background-color: orange;
+				text-align: center;
+				color: #fff;
+				position: absolute;
+				width: 100px;
+				height: 40px;
+				line-height: 40px;
+				border-radius: 10px;
+				top: 50%;
+				margin-top: -20px;
+				left: 50%;
+				margin-left: -50px;
+				cursor: pointer;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="map"></div>
+		<span id="btn">开始</span>
+		<script src="g.js"></script>
+		<script>
+			window.alert = alert;
+			function alert(data) {
+				var a = document.createElement("div"),
+					p = document.createElement("p"),
+					btn = document.createElement("div"),
+					textNode = document.createTextNode(data ? data : ""),
+					btnText = document.createTextNode("确定");
+				// 控制样式
+				css(a, {
+					"position": "fixed",
+					"left": "0",
+					"right": "0",
+					"top": "20%",
+					"width":"70%",
+					"margin": "0 auto",
+					"background-color": "#fff",
+					"text-align": "center",
+					"padding":"40px 20px",
+					"border-radius": "10px",
+				});
+				css(btn, {
+					"border-radius": "10px",
+					"background-color": "orange",
+					"cursor":"pointer",
+					"padding":"10px 0px",
+					"color":"#FFF"
+				})
+				// 内部结构套入
+				p.appendChild(textNode);
+				btn.appendChild(btnText);
+				a.appendChild(p);
+				a.appendChild(btn);
+				// 整体显示到页面内
+				document.getElementsByTagName("body")[0].appendChild(a);
+
+				// 确定绑定点击事件删除标签
+				btn.onclick = function() {
+					a.parentNode.removeChild(a);
+					document.querySelector('span').style.display = "block";
+				}
+			}
+
+			function css(targetObj, cssObj) {
+				var str = targetObj.getAttribute("style") ? targetObj.getAttribute("style") : "";
+				for (var i in cssObj) {
+					str += i + ":" + cssObj[i] + ";";
+				}
+				targetObj.style.cssText = str;
+			}
+			var map = document.querySelector(".map");
+			map.style.width = document.documentElement.clientWidth + "px";
+			map.style.height = document.documentElement.clientHeight + "px";
+			var game = new Game(map);
+			game.init();
+			document.getElementById("btn").addEventListener('click', function() {
+				game.run();
+				document.querySelector('span').style.display = "none";
+			});
+		</script>
+	</body>
+</html>
